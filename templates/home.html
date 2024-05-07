@@ -28,7 +28,7 @@
                                 </a>
                                 {% if venue.quantity > 0 %}
                                     <a >
-                                        <a href="{{url_for('add_to_cart', cover_id=cover.id)}}" class="btn btn-dark">Add to Cart</a>
+                                        <a href="{{url_for('add_to_favourite', venue_id=venue.id)}}" class="btn btn-dark">Add to Favourite</a>
                                     </a>
                                  {% else %}
                                 <p class="text-danger">Sold Out</p>
@@ -42,19 +42,19 @@
                 {% endfor %}     
         </div>
         <div class="pagination justify-content-center">
-          {% if covers.has_prev %}
+          {% if venues.has_prev %}
           <a
-            href="{{ url_for('home', page=covers.prev_num) }}"
+            href="{{ url_for('home', page=venues.prev_num) }}"
             class="btn btn-outline-dark mx-4"
             >&laquo; Previous</a
           >
           {% endif %}
           <span class="mx-6"
-            ><strong>Page {{ covers.page }} of {{ covers.pages }}</strong></span
+            ><strong>Page {{ venues.page }} of {{ venues.pages }}</strong></span
           >
-          {% if covers.has_next %}
+          {% if venues.has_next %}
           <a
-            href="{{ url_for('home', page=covers.next_num) }}"
+            href="{{ url_for('home', page=venues.next_num) }}"
             class="btn btn-outline-dark mx-40"
             >Next &raquo;</a
           >

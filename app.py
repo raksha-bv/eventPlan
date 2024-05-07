@@ -13,7 +13,7 @@ import cloudinary.api
 
 app=Flask(__name__,template_folder='templates')
 config = cloudinary.config(secure=True)
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+mysqlconnector://root:S%40hil276@localhost/eventplan'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+mysqlconnector://root:S%40hil276@localhost/eventPlan2'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db = SQLAlchemy(app)
 app.config['SECRET_KEY']='secret'
@@ -77,7 +77,7 @@ class Venues(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     # booking_id = db.Column(db.Integer, db.ForeignKey('booking.id'), nullable=True)
     favourites = db.relationship('Favourite', secondary='favourite_items', backref='venues', overlaps="favourites,venues")
-    orders = db.relationship('Order', secondary='booking_items', backref='venues')
+    bookings = db.relationship('Booking', secondary='booking_items', backref='venues')
 
 class Favourite(db.Model):
     id=db.Column(db.Integer, primary_key=True)
@@ -109,10 +109,10 @@ def admin_only(f):
 def home():
     page = request.args.get('page', 1, type=int)
     per_page = 6
-    favourites = Favourite.query.paginate(page=page, per_page=per_page, error_out=False)
+    venues = Venues.query.paginate(page=page, per_page=per_page, error_out=False)
     results = db.session.execute(db.select(User).order_by(User.name))
     users = results.scalars().all()
-    return render_template("home.html", favourites=favourites, users=users)
+    return render_template("home.html", venues=venues, users=users)
 
 
 @app.route("/reviews",methods=['POST', 'GET'])
@@ -304,8 +304,8 @@ def about_us():
 @app.route('/account')
 def account():
     if current_user.is_authenticated:
-        orders = Booking.query.filter_by(user_id=current_user.id).all()
-        return render_template("account.html", user=current_user, items=orders)
+        bookings = Booking.query.filter_by(user_id=current_user.id).all()
+        return render_template("account.html", user=current_user, items=bookings)
     else:
         return render_template("not_log_in.html", message="You need to be logged in to check your account")
 
@@ -348,7 +348,7 @@ def checkout():
         for item in user.favourite.items:
             favourite_it = db.session.query(favourite_items).filter_by(favourite_id=user.favourite.id, venue_id=item.id).first()
             if favourite_it:
-                item.order_id = new_booking.id
+                item.booking_id = new_booking.id
                 cover = db.session.get(Venues, item.id)
                 cover.quantity -= favourite_it.cover_quantity
                 db.session.query(favourite_items).filter_by(favourite_id=user.favourite.id, favourites_id=item.id).delete()

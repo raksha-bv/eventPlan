@@ -1,17 +1,16 @@
 {% include "header.html" %}
 
 <div class="container-fluid">
-  <h1 class="cart-head">Your Cart</h1>
+  <h1 class="cart-head">Favourites</h1>
   <div class="row gap-3 card-grid">
     <div class="col-9 cart-table">
       {% if items %}
       <table class="container-fluid table-head">
         <thead>
           <tr class="table-row">
-            <th class="first-space">Items</th>
+            <th class="first-space">Venues</th>
             <th>Title</th>
             <th>Company</th>
-            <th>Quantity</th>
             <th>Price</th>
           </tr>
         </thead>
@@ -20,28 +19,19 @@
           <tr class="table-row">
             <td class="first-space">
               <a
-                href="{{url_for('cover_detais', cover_id=item['cover'].id)}}"
+                href="{{url_for('venue_details', venue_id=item['venue'].id)}}"
                 class="text-decoration-none text-light"
               >
                 <img
-                  src="{{ item['cover'].image }}"
-                  alt="{{ item['cover'].model }}"
-                  class="cart-image"
+                  src="{{ item['venue'].image }}"
+                  alt="{{ item['venue'].model }}"
+                  class="favourite-image"
                 />
               </a>
             </td>
-            <td>{{ item['cover'].title }}</td>
-            <td>{{ item['cover'].model }}</td>
-            <td>{{ item['cover_quantity'] }}</td>
-            <td>{{ item['cover'].price }}</td>
-            <td>
-              <a
-                href="{{url_for('delete_cover', cover_id=item['cover'].id)}}"
-                class="text-danger"
-                title="Remove from Cart"
-                >×</a
-              >
-            </td>
+            <td>{{ item['venue'].title }}</td>
+            <td>{{ item['venue'].model }}</td>
+            <td>{{ item['venue'].price }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -50,18 +40,18 @@
 
     <div class="col-2 summary">
       <h4 class="my-4">Summary</h4>
-      <p class="cart-total">
+      <p class="favourite-total">
         <span class="total-text">Total: </span>
         ₹{{ total }}
       </p>
       <a
         href="{{url_for('checkout')}}"
         class="btn outline-btn my-4"
-        id="cart-checkout"
+        id="favourite-checkout"
         >Checkout</a
       >
       {% else %}
-      <p class="cart-no-item">Your cart is empty.</p>
+      <p class="favourite-no-item">You have no favourites.</p>
       {% endif %}
     </div>
   </div>

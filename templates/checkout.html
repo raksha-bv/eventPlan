@@ -58,8 +58,8 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Cover</th>
-                            <th>Model</th>
+                            <th>Venue</th>
+                            <th>Category</th>
                             <th>Quantity</th>
                             <th>Price</th>
                         </tr>
@@ -68,21 +68,18 @@
                         {% for item in items %}
                             <tr>
                                 <td>
-                                    <a href="{{url_for('cover_detais', cover_id=item['cover'].id)}}" class="text-decoration-none" style="color: black;">
-                                        <img src="{{ item['cover'].image }}" alt="{{ item['cover'].model }}" class="cart-image">
-                                        {{ item['cover'].title }}
+                                    <a href="{{url_for('venue_details', venue_id=item['venue'].id)}}" class="text-decoration-none" style="color: black;">
+                                        <img src="{{ item['venue'].image }}" alt="{{ item['venue'].model }}" class="favourite-image">
+                                        {{ item['venue'].title }}
                                     </a>
                                 </td>
-                                <input type="hidden" id="num_covers" name="num_covers" value="{{ item['cover_quantity'] }}">
-                                <input type="hidden" id="title" name="title" value="{{ item['cover'].title }}">
-                                <input type="hidden" id="model" name="model" value="{{ item['cover'].model }}">
-                                <input type="hidden" id="quantity" name="quantity" value="{{ item['cover_quantity'] }}">
-                                <td>{{ item['cover'].model }}</td>
-                                <td>{{ item['cover_quantity'] }}</td>
-                                <td>{{ item['cover'].price }}</td>
-                                <td>
-                                    <a href="{{url_for('delete_cover', cover_id=item['cover'].id)}}" class="text-danger" title="Remove from Cart">×</a>
-                                </td>
+<!--                                <input type="hidden" id="num_covers" name="num_covers" value="{{ item['cover_quantity'] }}">-->
+                                <input type="hidden" id="title" name="title" value="{{ item['venue'].title }}">
+                                <input type="hidden" id="category" name="model" value="{{ item['venue'].category }}">
+                                <input type="hidden" id="quantity" name="quantity" value="{{ item['venue_quantity'] }}">
+                                <td>{{ item['venue'].category }}</td>
+                                <td>{{ item['venue_quantity'] }}</td>
+                                <td>{{ item['venue'].price }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

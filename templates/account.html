@@ -3,17 +3,17 @@
 <div class="content">
   <h1 class="home-heading">Welcome, {{ user.name }}!</h1>
   {% if items %}
-    <h2 class="account-heading">Your Orders</h2>
+    <h2 class="account-heading">Your Bookings</h2>
     <div class="order-container">
-      {% for order in items %}
+      {% for booking in items %}
         <div class="order-item-container">
-          <p><strong>Date:</strong> {{ order.date }}</p>
+          <p><strong>Date:</strong> {{ booking.date }}</p>
           <ul class="cover-list">
-            {% for cover in order.covers %}
-              <li class="cover-item">
-                <p><strong>Cover Title:</strong> {{ cover.title }}</p>
-                <div class="ordered-cover-image-container">
-                  <img src="{{ cover.image }}" alt="{{ cover.title }}" class="ordered-cover-image">
+            {% for venue in booking.venues %}
+              <li class="venue-item">
+                <p><strong>Venue Title:</strong> {{ venue.title }}</p>
+                <div class="booked-venue-image-container">
+                  <img src="{{ venue.image }}" alt="{{ venue.title }}" class="booked-venue-image">
                 </div>
               </li>
             {% endfor %}

@@ -17,7 +17,8 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Event Planner</title>
-    <link href="styles.css" rel="stylesheet" />
+    <link href="static/css/style.css" rel="stylesheet" />
+      <link href="static/css/styles.css" rel="stylesheet" />
   </head>
 <body>
  <nav>
@@ -34,16 +35,16 @@
         </div>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-          <li><a href="#" class="nav-link px-2">Add Venue</a></li>
-          <li><a href="#" class="nav-link px-2">Orders</a></li>
-          <li><a href="#" class="nav-link px-2">Favourite</a></li>
-          <li><a href="#" class="nav-link px-2">About</a></li>
+          <li><a href="{{url_for('home')}}" class="nav-link px-2 link-secondary">Home</a></li>
+          <li><a href="{{url_for('add_venue')}}" class="nav-link px-2">Add Venue</a></li>
+          <li><a href="{{url_for('all_bookings')}}" class="nav-link px-2">Bookings</a></li>
+          <li><a href="{{url_for('view_favourite')}}" class="nav-link px-2">Favourite</a></li>
+          <li><a href="{{url_for('about_us')}}" class="nav-link px-2">About</a></li>
         </ul>
 
         <div class="col-md-3 text-end mx-9">
-          <button type="button" class="btn outline-btn me-2">Login</button>
-          <button type="button" class="btn primary-btn mx-2">Sign-up</button>
+          <a href="{{url_for('login')}}" type="button" class="btn outline-btn me-2" >Login</a>
+          <a href="{{url_for('signup')}}" type="button" class="btn primary-btn mx-2">Sign-up</a>
         </div>
       </header>
     </nav>
