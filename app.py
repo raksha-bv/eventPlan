@@ -13,7 +13,7 @@ import cloudinary.api
 
 app=Flask(__name__,template_folder='templates')
 config = cloudinary.config(secure=True)
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+mysqlconnector://root:S%40hil276@localhost/eventPlan2'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+mysqlconnector://root:S%40hil276@localhost/eventPlan5'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db = SQLAlchemy(app)
 app.config['SECRET_KEY']='secret'
@@ -28,15 +28,15 @@ login_manager.init_app(app)
 
 favourite_items = db.Table(
     'favourite_items',
-    db.Column('favorite_id', db.Integer, db.ForeignKey('favourite.id'), primary_key=True),
+    db.Column('favourite_id', db.Integer, db.ForeignKey('favourite.id'), primary_key=True),
     db.Column('venue_id', db.Integer, db.ForeignKey('venues.id'), primary_key=True),
-    # db.Column('venue_quantity', db.Integer, nullable=False, default=1)
+    db.Column('venue_quantity', db.Integer, nullable=False, default=1)
 )
 booking_items = db.Table(
     'booking_items',
     db.Column('booking_id', db.Integer, db.ForeignKey('booking.id'), primary_key=True),
     db.Column('venue_id', db.Integer, db.ForeignKey('venues.id'), primary_key=True),
-    # db.Column('venue_quantity', db.Integer, nullable=False, default=1)
+    db.Column('venue_quantity', db.Integer, nullable=False, default=1)
 )
 class User(UserMixin, db.Model):
     id=db.Column(db.Integer, primary_key=True)
@@ -46,7 +46,7 @@ class User(UserMixin, db.Model):
     is_admin=db.Column(db.Boolean, default=False, nullable=False)
     comments= db.relationship('Comment', backref='user')
     bookings= db.relationship('Booking', backref='user')
-    favourites= db.relationship('Favourite', backref='user', uselist=False)
+    favourite= db.relationship('Favourite', backref='user', uselist=False)
 
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -73,7 +73,7 @@ class Venues(db.Model):
     category = db.Column(db.String(250), nullable=False)
     price = db.Column(db.String(250), nullable=False)
     image = db.Column(db.String(250), nullable=False)
-    # quantity = db.Column(db.Integer, nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     # booking_id = db.Column(db.Integer, db.ForeignKey('booking.id'), nullable=True)
     favourites = db.relationship('Favourite', secondary='favourite_items', backref='venues', overlaps="favourites,venues")
@@ -151,7 +151,7 @@ def add_venue():
             category=request.form.get('category'),
             price=request.form.get('price'),
             image=image_url,
-            # quantity=request.form.get('quantity'),
+            quantity=request.form.get('quantity'),
             title=request.form.get('title'),
             user_id=user_id
         )
@@ -243,7 +243,7 @@ def view_favourite():
         items.append(venue_item)
         total += int(item.price.split('.')[0]) * venue_item['venue_quantity']
 
-    return render_template("favourite.html", items=items, total=total)
+    return render_template("cart.html", items=items, total=total)
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method== 'POST':
