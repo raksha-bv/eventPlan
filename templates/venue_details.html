@@ -13,14 +13,13 @@
     </div>
     <div class="col-md-6">
       <div class="venue">
-        <h1 class="venue-details-title">{{ cover.title }}</h1>
+        <h1 class="venue-details-title">{{ venue.title }}</h1>
         <hr class="venue-details-hr" />
-        <p class="venue">
-          <span class="canceled-price">{{ cancelled_price}}</span> {{
-          cover.price }}
+        <p class="venue">{{
+          venue.price }}
         </p>
         <p class="details-discount">(62% Off)</p>
-        <p class="venue">Company: {{cover.model}}</p>
+        <p class="venue">Company: {{venue.category}}</p>
         <div class="venue">
           <p class="venue">Best Price :</p>
           <p class="red-mark">Rs. 399.00</p>
@@ -28,13 +27,13 @@
           <p class="offer-points">. Coupon Code : G2T5</p>
           <p class="offer-points">. Special Offer (Today Only)</p>
         </div>
-        {% if 2 >= cover.quantity and cover.quantity > 0 %}
+        {% if 2 >= venue.quantity and venue.quantity > 0 %}
         <p class="venue">
-          Hurry Up Only {{cover.quantity}} Left!
+          Hurry Up Only {{venue.quantity}} Left!
         </p>
         {% endif %}
         <div class="venue-details-toCart">
-          {% if cover.quantity > 0 %}
+          {% if venue.quantity > 0 %}
           <a href="{{url_for('add_to_favourite', venue_id=venue.id)}}">
             <button type="button" class="btn btn-dark">
               <svg
@@ -52,11 +51,6 @@
               ADD TO CART
             </button>
           </a>
-          <form action="{{ url_for('delete_venue_perm', venue_id=venue.id) }}" method="POST">
-  <button type="submit" class="btn btn-danger">
-    Delete Cover
-  </button>
-</form>
           {% else %}
           <p class="text-danger">Sold Out</p>
           {% endif %}

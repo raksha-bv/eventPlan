@@ -19,7 +19,7 @@
         <div class="row g-4">
           {% for venue in venues.items %}
           <div class="col-md-6 col-lg-3 col-sm-6">
-                    <a href="{{url_for('venue_detais', venue_id=venue.id)}}" class="text-decoration-none">
+                    <a href="{{url_for('venue_details', venue_id=venue.id)}}" class="text-decoration-none">
                         <div class="card">
                              <img  src="{{ venue.image }}" class="card-img-top" alt="{{venue.title }}">
                             <div class="card-body">

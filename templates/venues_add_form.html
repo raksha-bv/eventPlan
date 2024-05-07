@@ -16,7 +16,7 @@
               aria-label="Close"
             ></button>
           </div>
-          <form action="/add_venue" method="post" enctype="multipart/form-data">
+          <form action="{{url_for('add_venue')}}" method="post" enctype="multipart/form-data">
             <div class="form-floating mb-4">
               <input
                 class="form-control rounded-3"
@@ -26,6 +26,16 @@
                 placeholder="Enter title"
               />
               <label for="title">Title</label>
+            </div>
+            <div class="form-floating mb-4">
+              <input
+                class="form-control rounded-3"
+                type="text"
+                id="floatingInput"
+                name="category"
+                placeholder="Enter Category"
+              />
+              <label for="category">Category</label>
             </div>
             <div class="form-floating mb-4">
               <input
