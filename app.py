@@ -76,12 +76,12 @@ class Venues(db.Model):
     # quantity = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     # booking_id = db.Column(db.Integer, db.ForeignKey('booking.id'), nullable=True)
-    favourites = db.relationship('Favourite', secondary='favourite_items', backref='venues', avouritelaps="favourites,venues")
+    favourites = db.relationship('Favourite', secondary='favourite_items', backref='venues', overlaps="favourites,venues")
     orders = db.relationship('Order', secondary='booking_items', backref='venues')
 
 class Favourite(db.Model):
     id=db.Column(db.Integer, primary_key=True)
-    items = db.relationship('Venues', secondary=favourite_items, backref='favourite', avouritelaps="favourites,venues")
+    items = db.relationship('Venues', secondary=favourite_items, backref='favourite', overlaps="favourites,venues")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class Comment(db.Model):
@@ -184,6 +184,66 @@ def venue_details(venue_id):
     # cancelled_price=int(venue.price)*10
     return render_template("venue_details.html", venue=venue, users=users)
 
+
+@app.route("/add-to-favourite/<int:venue_id>")
+def add_to_favourite(venue_id):
+    if not current_user.is_authenticated:
+        return render_template('not_log_in.html', message="You need to be logged in to add items to favourites")
+
+    user = current_user
+    venue = db.get_or_404(Venues, venue_id)
+
+    if user.favourite is None:
+        user.favourite = Favourite()
+        db.session.commit()
+
+    user_favourite= user.favourite
+    favourite_item= db.session.query(favourite_items).filter_by(favourite_id=user_favourite.id, venue_id=venue.id).first()
+
+    if favourite_item is None:
+        db.session.execute(favourite_items.insert().values(favourite_id=user_favourite.id, venue_id=venue.id, venue_quantity=1))
+    else:
+        db.session.execute(
+            favourite_items.update().where(favourite_items.c.favourite_id == user_favourite.id, favourite_items.c.venue_id == venue.id).values(
+                venue_quantity=favourite_item.cover_quantity + 1))
+    if venue not in user_favourite.items:
+        user_favourite.items.append(venue)
+
+    db.session.commit()
+    return redirect(url_for('home'))
+
+@app.route("/view_favourite")
+def view_favourite():
+    if not current_user.is_authenticated:
+        return render_template('not_log_in.html', message="You need to be logged in to access your favourites")
+
+    user = current_user
+    user_favourite = user.favourite
+
+    if user_favourite is None:
+        user_favourite = Favourite(user_id=user.id)
+        db.session.add(user_favourite)
+        db.session.commit()
+
+    user_favourite_items = user_favourite.items
+    total = 0
+    items = []
+
+    for item in user_favourite_items:
+        favourite_item = db.session.query(favourite_items).filter_by(favourite_id=user_favourite.id, venue_id=item.id).first()
+        venue_item = {
+            'venue': item,
+            'venue_quantity': favourite_item.venue_quantity if favourite_item else 0,
+            'image': item.image,
+            'price': item.price,
+            'title': item.title,
+            'category': item.category,
+            'id': item.id
+        }
+        items.append(venue_item)
+        total += int(item.price.split('.')[0]) * venue_item['venue_quantity']
+
+    return render_template("favourite.html", items=items, total=total)
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method== 'POST':
@@ -299,7 +359,7 @@ def checkout():
         return render_template("order_sucess.html")
 
     user = current_user
-    if not current_user.is_authenticated or user.cart is None:
+    if not current_user.is_authenticated or user.favourite is None:
         return render_template("not_log_in.html", message='Session Expired! Please Log In Again')
 
     user_favourite = user.favourtie
