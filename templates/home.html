@@ -1,0 +1,67 @@
+{% include "header.html" %}
+<section>
+      <div class="s-bar container ">
+      <form class="me-3 search-bar" role="search" action="{{url_for('search_venues')}}" method="get">
+        <input
+          type="search"
+          class="form-control"
+          placeholder="Search..."
+          aria-label="Search"
+          name="query"
+          id="search-bar"
+          
+        />
+      </form>
+    </div>
+    <div class="container-fluid">
+      <h2 class="home-head">Venue</h2>
+      <div class="container-fluid">
+        <div class="row g-4">
+          {% for venue in venues.items %}
+          <div class="col-md-6 col-lg-3 col-sm-6">
+                    <a href="{{url_for('venue_detais', venue_id=venue.id)}}" class="text-decoration-none">
+                        <div class="card">
+                             <img  src="{{ venue.image }}" class="card-img-top" alt="{{venue.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title text-dark">{{ venue.title }}</h5>
+                                <p class="card-text text-dark"> ${{ venue.price }}</p>
+                                </a>
+                                {% if venue.quantity > 0 %}
+                                    <a >
+                                        <a href="{{url_for('add_to_cart', cover_id=cover.id)}}" class="btn btn-dark">Add to Cart</a>
+                                    </a>
+                                 {% else %}
+                                <p class="text-danger">Sold Out</p>
+                                {% endif %}
+                                
+                                
+                              
+                            </div>
+                        </div> 
+                </div>
+                {% endfor %}     
+        </div>
+        <div class="pagination justify-content-center">
+          {% if covers.has_prev %}
+          <a
+            href="{{ url_for('home', page=covers.prev_num) }}"
+            class="btn btn-outline-dark mx-4"
+            >&laquo; Previous</a
+          >
+          {% endif %}
+          <span class="mx-6"
+            ><strong>Page {{ covers.page }} of {{ covers.pages }}</strong></span
+          >
+          {% if covers.has_next %}
+          <a
+            href="{{ url_for('home', page=covers.next_num) }}"
+            class="btn btn-outline-dark mx-40"
+            >Next &raquo;</a
+          >
+          {% endif %}
+        </div>
+      </div>
+      </div>
+    </section>
+
+{% include "footer.html" %}
