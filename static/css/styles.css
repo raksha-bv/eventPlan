@@ -210,7 +210,8 @@ body {
   width: 900px;
   height: auto;
   border-radius: 10px;
-  background-color: #343434;
+  background-color: white;
+  color:black;
 }
 
 .sign-up-page {
@@ -222,8 +223,9 @@ body {
 }
 .sign-up-img {
   /* fill: aquamarine; */
+  color: var(--pure-white);
   background-color: black;
-  background-image: url("../andres-jasso-PqbL_mxmaUE-unsplash.jpg");
+  background-image: url("../brooke-lark-HjWzkqW1dgI-unsplash.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -234,7 +236,8 @@ body {
   width: 900px;
   height: auto;
   border-radius: 10px;
-  background-color: #343434;
+  background-color: white;
+  color:black;
 }
 
 .log-in-page {
@@ -246,8 +249,9 @@ body {
 }
 
 .log-in-img {
+  color: var(--pure-white);
   background-color: black;
-  background-image: url("../vladimir-yelizarov-RlDOPY6rBa0-unsplash.jpg");
+  background-image: url("../daniel-lee-Y4_SUK8QOIs-unsplash.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -352,7 +356,7 @@ body {
 
 .cart-table {
   /* box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2); */
-  background-color: #343434;
+  background-color: white;
   border-radius: 8px;
 }
 .cart-grid {
@@ -361,7 +365,7 @@ body {
 .summary {
   /* box-shadow: 0.1 0.1 0.1 rgba(255, 255, 255, 0.75); */
   border-radius: 8px;
-  background-color: #343434;
+  background-color: white;
   height: fit-content;
 }
 .cart-total {
@@ -411,8 +415,9 @@ body {
 /* add item page */
 
 .add-item-img {
+  color: #fff;
   background-color: black;
-  background-image: url("../usama-akram-kP6knT7tjn4-unsplash.jpg");
+  background-image: url("../hisu-lee-AbkBVd1gbVA-unsplash.jpg");
   background-size: cover;
   background-position: center;
 }
